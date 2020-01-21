@@ -6,6 +6,9 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/sirupsen/logrus"
+
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/golang-migrate/migrate/source/file"
 )
 
 type response1 struct {
@@ -22,26 +25,20 @@ type MainController struct {
 }
 
 func (this *MainController) Get() {
-	// this.Data["json"] = map[string]interface{}{"success": 0, "message": "111"}
 	res1De := &response1{
 		Page:   1,
 		Fruits: []string{"apple", "peach", "pear"}}
 	this.Data["json"] = res1De
+	res1B, _ := json.Marshal(res1De)
+	fmt.Println(string(res1B))
 	this.ServeJSON()
 }
 
 func main() {
 	// 在 main 裡面使用 logrus
+
 	l := logrus.New()
-	bolB, _ := json.Marshal(true)
-	fmt.Println(string(bolB))
 
-	res1D := &response1{
-		Page:   1,
-		Fruits: []string{"apple", "peach", "pear"}}
-
-	res1B, _ := json.Marshal(res1D)
-	fmt.Println(string(res1B))
 	l.Info("This is an info")
 	l.Warn("This is a warning")
 	l.Error("This is an error")
